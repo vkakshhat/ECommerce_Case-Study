@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce", "E-Commerce Case Study\Ecommerce.csproj", "{285D6AC2-2612-4256-985A-598F29832ACF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entity_Library", "Customers\Entity_Library.csproj", "{AC36A9C3-947E-4955-AEBF-E883AD7DDFFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAO_Library", "DAO_Library\DAO_Library.csproj", "{FFCAF61A-C787-4F2E-8A40-702E619A230A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilityLibrary", "UtilityLibrary\UtilityLibrary.csproj", "{BF0F5FFF-A091-4604-BEB9-ED3FB5051E28}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exception_Library", "CustomerNotFoundException.cs\Exception_Library.csproj", "{E3B26F2C-7BB1-41B4-A86D-BF6A7AE5F41B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit_Testing", "Unit_Testing\Unit_Testing.csproj", "{DFD32699-E1D0-42D5-ADDC-4A733D497D43}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{285D6AC2-2612-4256-985A-598F29832ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{285D6AC2-2612-4256-985A-598F29832ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{285D6AC2-2612-4256-985A-598F29832ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{285D6AC2-2612-4256-985A-598F29832ACF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC36A9C3-947E-4955-AEBF-E883AD7DDFFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC36A9C3-947E-4955-AEBF-E883AD7DDFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC36A9C3-947E-4955-AEBF-E883AD7DDFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC36A9C3-947E-4955-AEBF-E883AD7DDFFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFCAF61A-C787-4F2E-8A40-702E619A230A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFCAF61A-C787-4F2E-8A40-702E619A230A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFCAF61A-C787-4F2E-8A40-702E619A230A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFCAF61A-C787-4F2E-8A40-702E619A230A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF0F5FFF-A091-4604-BEB9-ED3FB5051E28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF0F5FFF-A091-4604-BEB9-ED3FB5051E28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF0F5FFF-A091-4604-BEB9-ED3FB5051E28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF0F5FFF-A091-4604-BEB9-ED3FB5051E28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3B26F2C-7BB1-41B4-A86D-BF6A7AE5F41B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3B26F2C-7BB1-41B4-A86D-BF6A7AE5F41B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3B26F2C-7BB1-41B4-A86D-BF6A7AE5F41B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3B26F2C-7BB1-41B4-A86D-BF6A7AE5F41B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFD32699-E1D0-42D5-ADDC-4A733D497D43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFD32699-E1D0-42D5-ADDC-4A733D497D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFD32699-E1D0-42D5-ADDC-4A733D497D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFD32699-E1D0-42D5-ADDC-4A733D497D43}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34612084-B737-4A62-8009-D0AB1BF20A31}
+	EndGlobalSection
+EndGlobal
