@@ -11,10 +11,8 @@ namespace Unit_Testing
         [Test]
         public void TestCustomerNotFoundException()
         {
-            // Arrange
-            var customerId = -1; // Invalid customer ID
+            var customerId = -1; 
 
-            // Act & Assert
             var ex = Assert.Throws<Exception>(() => _orderProcessorRepository.GetCustomerById(customerId));
             Assert.That(ex.Message, Is.EqualTo("Customer not found.")); // Check for the specific message
         }
@@ -22,10 +20,8 @@ namespace Unit_Testing
         [Test]
         public void TestProductNotFoundException()
         {
-            // Arrange
-            var productId = -1; // Invalid product ID
+            var productId = -1;
 
-            // Act & Assert
             var ex = Assert.Throws<Exception>(() => _orderProcessorRepository.GetProductById(productId));
             Assert.That(ex.Message, Is.EqualTo("Product not found.")); // Check for the specific message
         }

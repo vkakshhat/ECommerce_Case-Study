@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Entity_Library;
 using Utility_Library;
 using Exception_Library;
+using System.Text.RegularExpressions;
 
 namespace DAO_Library
 {
@@ -24,7 +25,7 @@ namespace DAO_Library
 
             try
             {
-                // Ensure the connection is open
+                // Ensures the connection is open
                 if (_connection.State == System.Data.ConnectionState.Closed)
                 {
                     _connection.Open();
@@ -46,7 +47,7 @@ namespace DAO_Library
             }
             finally
             {
-                // Ensure the connection is closed after use
+                // Ensures the connection is closed after use
                 if (_connection.State == System.Data.ConnectionState.Open)
                 {
                     _connection.Close();
@@ -57,6 +58,30 @@ namespace DAO_Library
         // Create a new customer
         public bool CreateCustomer(Customers customer)
         {
+            // Name validation
+            if (!IsValidName(customer.Name))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Error: Name should contain only alphabetic characters.");
+                return false;
+            }
+
+            // Email validation
+            if (!IsValidEmail(customer.Email))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Error: Invalid email format! It must contain '@'.");
+                return false;
+            }
+
+            // Password validation
+            if (!IsValidPassword(customer.Password))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Error: Password must be at least 8 characters long, contain an uppercase letter, and include a numeric character.");
+                return false;
+            }
+
             string query = "INSERT INTO Customers (Name, Email, Password) VALUES (@name, @Email, @Password)";
 
             try
@@ -90,6 +115,26 @@ namespace DAO_Library
             }
         }
 
+        // Email validation method
+        private bool IsValidEmail(string email)
+        {
+            return !string.IsNullOrEmpty(email) && email.Contains("@");
+        }
+
+        // Password validation method
+        private bool IsValidPassword(string password)
+        {
+            return password.Length >= 8 &&
+                   Regex.IsMatch(password, @"[A-Z]") && // Check for uppercase
+                   Regex.IsMatch(password, @"[0-9]");  // Check for numeric
+        }
+
+        // Name validation method
+        private bool IsValidName(string name)
+        {
+            return Regex.IsMatch(name, @"^[a-zA-Z]+$");
+        }
+
         // Delete a product by product ID
         public bool DeleteProduct(int productId)
         {
@@ -111,7 +156,7 @@ namespace DAO_Library
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                //Console.WriteLine($"Error: {ex.Message}");
                 return false;
             }
             finally
@@ -170,11 +215,25 @@ namespace DAO_Library
                     _connection.Open();
                 }
 
+                // Verify if the customer exists
+                string checkCustomerQuery = "SELECT COUNT(*) FROM Customers WHERE Customer_id = @customerId";
+                using (SqlCommand checkCustomerCmd = new SqlCommand(checkCustomerQuery, _connection))
+                {
+                    checkCustomerCmd.Parameters.AddWithValue("@customerId", customer.Customer_id);
+                    int customerExists = (int)checkCustomerCmd.ExecuteScalar();
+
+                    if (customerExists == 0)
+                    {
+                        Console.WriteLine("Error: Customer does not exist!");
+                        return false;
+                    }
+                }
+
                 // Check if enough stock is available
                 if (product.StockQuantity < quantity)
                 {
                     Console.WriteLine("Error: Not enough stock available!");
-                    return false; // Not enough stock
+                    return false;
                 }
 
                 // Check if the product already exists in the cart
@@ -227,12 +286,12 @@ namespace DAO_Library
                     updateStockCmd.ExecuteNonQuery();
                 }
 
-                return true; // Successfully added to cart or updated quantity
+                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                return false; // Error occurred while adding to cart
+                return false;
             }
             finally
             {
@@ -243,6 +302,7 @@ namespace DAO_Library
                 }
             }
         }
+
 
         // Remove a product from the customer's cart
         public bool RemoveFromCart(Customers customer, Products product)
@@ -285,7 +345,7 @@ namespace DAO_Library
                             Price = Convert.ToDecimal(reader["Price"])
                         };
                         int quantity = Convert.ToInt32(reader["Quantity"]);
-                        cartItems.Add((product, quantity)); // Add as tuple
+                        cartItems.Add((product, quantity)); 
                     }
                 }
             }
@@ -309,7 +369,7 @@ namespace DAO_Library
                     }
 
                     int rowsAffected = cmd.ExecuteNonQuery();
-                    return rowsAffected > 0; // Return true if the update was successful
+                    return rowsAffected > 0; 
                 }
             }
             catch (Exception ex)
@@ -343,13 +403,6 @@ namespace DAO_Library
             {
                 transaction = _connection.BeginTransaction();
 
-                // Debugging information
-                Console.WriteLine("----------------------------------------");
-                Console.WriteLine($"Customer ID: {customer.Customer_id}");
-                Console.WriteLine($"Total Price: {CalculateTotalPrice(cart)}");
-                Console.WriteLine($"Shipping Address: {shippingAddress}");
-                Console.WriteLine("----------------------------------------");
-
                 // Insert into Orders table
                 string orderQuery = "INSERT INTO Orders (Customer_id, Total_price, Shipping_address) " +
                                     "VALUES (@customerId, @totalPrice, @shippingAddress); SELECT SCOPE_IDENTITY();";
@@ -382,20 +435,18 @@ namespace DAO_Library
                         clearCartCmd.ExecuteNonQuery();
                     }
 
-                    // Commit the transaction
                     transaction.Commit();
-                    return true; // Successfully placed the order
+                    return true; 
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                transaction?.Rollback(); // Rollback the transaction in case of error
+                transaction?.Rollback(); 
                 return false;
             }
             finally
             {
-                // Close the connection only if you are done with all operations
                 if (_connection.State == System.Data.ConnectionState.Open)
                 {
                     _connection.Close();
@@ -417,7 +468,7 @@ namespace DAO_Library
             // Ensure the connection is open before executing the command
             if (_connection.State != ConnectionState.Open)
             {
-                _connection.Open(); // Open the connection if it's not already open
+                _connection.Open(); 
             }
 
             using (SqlCommand cmd = new SqlCommand(query, _connection))
@@ -430,7 +481,7 @@ namespace DAO_Library
                     {
                         int productId = reader.GetInt32(0);
                         string productName = reader.GetString(1);
-                        decimal productPrice = reader.GetDecimal(2); // Assuming price is a decimal
+                        decimal productPrice = reader.GetDecimal(2); 
                         int quantity = reader.GetInt32(3);
 
                         // Create a Products object from the data retrieved
@@ -438,8 +489,7 @@ namespace DAO_Library
                         {
                             Product_id = productId,
                             Name = productName,
-                            Price = productPrice, // Add Price property to the Products object
-                                                  // Populate other properties as needed
+                            Price = productPrice, 
                         };
 
                         // Add the tuple (product, quantity) to the orders list
@@ -448,7 +498,6 @@ namespace DAO_Library
                 }
             }
 
-            // Optionally close the connection after the command execution if it was opened by this method
             if (_connection.State == ConnectionState.Open)
             {
                 _connection.Close();
@@ -465,14 +514,14 @@ namespace DAO_Library
 
             foreach (var item in cart)
             {
-                totalPrice += item.product.Price * item.quantity; // Assuming product has a Price property
+                totalPrice += item.product.Price * item.quantity; 
             }
 
             return totalPrice;
         }
 
 
-        // Get customer by ID (throw exception if not found)
+        // Get customer by ID
         public Customers GetCustomerById(int customerId)
         {
             if (_connection.State == System.Data.ConnectionState.Closed)
@@ -498,14 +547,14 @@ namespace DAO_Library
                     }
                     else
                     {
-                        throw new Exception("Customer not found."); // Throw an exception if the customer is not found
+                        throw new Exception("Customer not found."); 
                     }
                 }
             }
         }
 
 
-        // Get product by ID (throw exception if not found)
+        // Get product by ID
         public Products GetProductById(int productId)
         {
             if (_connection.State == System.Data.ConnectionState.Closed)
@@ -528,13 +577,12 @@ namespace DAO_Library
                             Product_id = reader.GetInt32(0),
                             Name = reader.GetString(1),
                             // Cast StockQuantity from decimal to int if needed
-                            StockQuantity = Convert.ToInt32(reader.GetDecimal(2)),  // Adjust index based on actual column order
-                                                                                    // Populate other properties as needed
+                            StockQuantity = Convert.ToInt32(reader.GetDecimal(2)),  
                         };
                     }
                     else
                     {
-                        throw new Exception("Product not found."); // Throw an exception if the product is not found
+                        throw new Exception("Product not found."); 
                     }
                 }
             }
@@ -571,9 +619,9 @@ namespace DAO_Library
                 }
             }
 
-            return null; // Return null if not found
+            return null;
         }
-
+        
 
     }
 }

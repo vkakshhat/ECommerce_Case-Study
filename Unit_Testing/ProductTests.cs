@@ -8,19 +8,16 @@ namespace Unit_Testing
         [Test]
         public void TestProductCreation()
         {
-            // Arrange
             var product = new Products
             {
                 Name = "Test Product",
                 Price = 99.99M,
-                Description = "This is a test product.", // Ensure description is set
-                StockQuantity = 10 // Ensure stock quantity is set
+                Description = "This is a test product.", 
+                StockQuantity = 10 
             };
 
-            // Act
             var result = _orderProcessorRepository.CreateProduct(product);
 
-            // Assert
             Assert.That(result, Is.True, "Product should be created successfully.");
         }
     }

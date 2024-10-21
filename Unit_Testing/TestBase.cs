@@ -10,7 +10,6 @@ public abstract class TestBase
         [SetUp]
         public void Setup()
         {
-            // Build configuration for tests
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")

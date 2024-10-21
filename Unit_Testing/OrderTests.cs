@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using Entity_Library; // Reference to entity classes
-using DAO_Library; // Reference to repository classes
+using Entity_Library; 
+using DAO_Library;
 
 namespace Unit_Testing
 {
@@ -10,7 +10,7 @@ namespace Unit_Testing
         public void TestProductOrderedSuccessfully()
         {
             // Arrange
-            var customer = new Customers { Customer_id = 1 }; // Ensure this customer exists
+            var customer = new Customers { Customer_id = 1 }; 
             var product = new Products { Product_id = 1, Name = "Test Product", Price = 100.00m };
             var cart = new List<(Products product, int quantity)>
             {
